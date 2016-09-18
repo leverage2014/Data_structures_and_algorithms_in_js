@@ -33,9 +33,25 @@ function find(element){
 	return -1;
 }
 
-function clear(){}
+function toString(){
+	return this.dataStore;
+}
 
-function insert(){}
+function clear(){
+	delete this.dataStore;
+	this.dataStore = [];
+	this.listSize = this.pos = 0;
+}
+
+function insert(element, after){
+	var insertPos = this.find(after);
+	if(insertPos > -1){
+		this.dataStore.splice(insertPos+1, 0, element);
+		++this.listSize;
+		return true;
+	}
+	return false;
+}
 
 function remove(element){
     var foundAt = this.find(element);
@@ -47,16 +63,49 @@ function remove(element){
     return false;
 }
 
-function front(){}
-function end(){}
-function prev(){}
-function next(){}
+function front(){
+	this.pos = 0;
+}
+
+function end(){
+	this.pos = this.listSize - 1;
+}
+
+function prev(){
+   if(this.pos > 0){
+   	  --this.pos;
+   }
+}
+
+function next(){
+   if(this.pos < this.listSize - 1){
+   	  ++this.pos;
+   }
+}
 
 function length(){
 	return this.listSize;
 }
 
-function currPos(){}
-function moveTo(){}
-function getElement(){}
-function contains(){}
+function currPos(){
+	return this.pos;
+}
+
+function moveTo(newPos){
+	this.pos = newPos;
+}
+
+function getElement(){
+	return this.dataStore[this.pos];
+}
+
+function contains(elem){
+	for(var i=0; i<this.dataStore.length; i++){
+		if(this.dataStore[i] == elem){
+			return true;
+		}
+	}
+	return false;
+}
+
+

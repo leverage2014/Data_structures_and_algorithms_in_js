@@ -9,6 +9,7 @@ module.exports = function Set(){
 	this.difference = difference;
 	this.contains = contains;
 	this.show = show;
+	//this.differenceWithSameLength = differenceWithSameLength;
 }
 
 function add(data){
@@ -71,33 +72,53 @@ function subsetOf(otherSet){
 function difference(otherSet){
     var diff = [];
 
-    if(this.size() != otherSet.size()){
-    	var maxSizeSet = this.size()>otherSet.size()?this:otherSet;
-       // console.log('max:'+maxSizeSet.show());
+	var maxSizeSet = this.size()>otherSet.size()?this:otherSet;
+    //console.log('max:'+maxSizeSet.show());
 
-        var minSizeSet = this.size()>otherSet.size()?otherSet:this;
-       // console.log('min:'+minSizeSet.show());
+    var minSizeSet = this.size()>otherSet.size()?otherSet:this;
+    //console.log('min:'+minSizeSet.show());
 
-        for(var i=0; i<maxSizeSet.size(); i++){
-	        if(!minSizeSet.contains(maxSizeSet.dataStore[i]) || i>minSizeSet.size()){
-                diff.push(maxSizeSet.dataStore[i]);
-	        }
+    var maxLength = maxSizeSet.size();
+    //console.log('maxlength:'+maxLength);
+    var minLength = minSizeSet.size();
+    //console.log('minlength:'+minLength);
+
+    
+    for(var i=0; i<minLength; i++){
+
+       if(!maxSizeSet.contains(minSizeSet.dataStore[i]) ){
+          diff.push(minSizeSet.dataStore[i]);
         }
-    }else{
-    	for(var j=0; j<this.size(); j++){
-	        if(!this.contains(otherSet.dataStore[j]) ){
-                diff.push(otherSet.dataStore[j]);
-	        }
 
-	        if( !otherSet.contains(this.dataStore[j]) ){
-                diff.push(this.dataStore[j]);
-	        }
+       if( !minSizeSet.contains(maxSizeSet.dataStore[i]) ){
+           diff.push(maxSizeSet.dataStore[i]);
         }
+    }
+
+    for(var j=minLength; j<maxLength; j++){
+
+    	if(!minSizeSet.contains(maxSizeSet.dataStore[j])){
+    		diff.push(maxSizeSet.dataStore[j]);
+    	}	
     }
 
     this.dataStore = diff;
     return this;
 }
+
+// function differenceWithSameLength(otherSet){
+// 	var diff = [];
+// 	for(var j=0; j<this.size(); j++){
+//         if(!this.contains(otherSet.dataStore[j]) ){
+//             diff.push(otherSet.dataStore[j]);
+//         }
+
+//         if( !otherSet.contains(this.dataStore[j]) ){
+//             diff.push(this.dataStore[j]);
+//         }
+//     }
+//     return diff;
+// }
 
 function contains(data){
 	if(this.dataStore.indexOf(data) > -1){

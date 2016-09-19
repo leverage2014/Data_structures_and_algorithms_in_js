@@ -131,6 +131,6 @@ describe("Set", function(){
         set4.add('a');
         set4.add('d');
 
-		expect(set.difference(set4).show()).toEqual(['d','b']);
+		expect(set.difference(set4).show()).toEqual(['b','d']);
 	});
 });
